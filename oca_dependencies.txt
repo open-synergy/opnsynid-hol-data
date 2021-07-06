@@ -13,3 +13,4 @@
 #
 # To provide both the URL and a branch, use:
 partner-contact https://github.com/OCA/partner-contact.git 11.0
+opnsynid-crm https://github.com/open-synergy/opnsynid-crm.git 11.0
