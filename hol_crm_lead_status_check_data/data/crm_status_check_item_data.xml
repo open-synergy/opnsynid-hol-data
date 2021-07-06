@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2021 OpenSynergy Indonesia
+     Copyright 2021 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="1">
+    <record id="crm_status_check_item_1" model="crm.status_check_item">
+        <field name="name">Nomor Telephone Diisi</field>
+        <field name="code">CHKITEM-0001</field>
+        <field name="python_code">result = False
+if document.partner_id.commercial_partner_id.phone:
+    result = True
+        </field>
+    </record>
+    <record id="crm_status_check_item_2" model="crm.status_check_item">
+        <field name="name">Memiliki Divisi Hukum/Legal</field>
+        <field name="code">CHKITEM-0002</field>
+        <field name="python_code">result = False
+data_divisi_hukum = env.ref("hol_partner_contact_department_data.res_partner_department_hukum")
+child_ids = document.partner_id.commercial_partner_id.child_ids
+filtered_child_ids = child_ids.filtered(lambda x: x.department_id.id == data_divisi_hukum.id)
+if filtered_child_ids:
+    result = True
+        </field>
+    </record>
+    <record id="crm_status_check_item_3" model="crm.status_check_item">
+        <field
+            name="name"
+        >Memiliki Divisi Sekretaris Perusahaan/ Corporate Secretary</field>
+        <field name="code">CHKITEM-0003</field>
+        <field name="python_code">result = False
+data_divisi_sekretaris = env.ref("hol_partner_contact_department_data.res_partner_department_sekretaris")
+child_ids = document.partner_id.commercial_partner_id.child_ids
+filtered_child_ids = child_ids.filtered(lambda x: x.department_id.id == data_divisi_sekretaris.id)
+if filtered_child_ids:
+    result = True
+        </field>
+    </record>
+    <record id="crm_status_check_item_4" model="crm.status_check_item">
+        <field name="name">Memiliki Divisi HSE</field>
+        <field name="code">CHKITEM-0004</field>
+        <field name="python_code">result = False
+data_divisi_hse = env.ref("hol_partner_contact_department_data.res_partner_department_hse")
+child_ids = document.partner_id.commercial_partner_id.child_ids
+filtered_child_ids = child_ids.filtered(lambda x: x.department_id.id == data_divisi_hse.id)
+if filtered_child_ids:
+    result = True
+        </field>
+    </record>
+    <record id="crm_status_check_item_5" model="crm.status_check_item">
+        <field name="name">Memiliki Divisi HR/Sumber Daya Manusia</field>
+        <field name="code">CHKITEM-0005</field>
+        <field name="python_code">result = False
+data_divisi_hr = env.ref("hol_partner_contact_department_data.res_partner_department_hr")
+child_ids = document.partner_id.commercial_partner_id.child_ids
+filtered_child_ids = child_ids.filtered(lambda x: x.department_id.id == data_divisi_hr.id)
+if filtered_child_ids:
+    result = True
+        </field>
+    </record>
+
+    <record id="crm_status_check_item_6" model="crm.status_check_item">
+        <field name="name">Memiliki jumlah karyawan > 100</field>
+        <field name="code">CHKITEM-0006</field>
+        <field name="python_code">result = False
+if document.partner_id.commercial_partner_id.employee_quantity > 100:
+    result = True
+        </field>
+    </record>
+
+    <record id="crm_status_check_item_7" model="crm.status_check_item">
+        <field name="name">Data Alamat Perusahaan Lengkap</field>
+        <field name="code">CHKITEM-0007</field>
+        <field name="python_code">result = False
+check_street = document.partner_id.commercial_partner_id.street
+check_street2 = document.partner_id.commercial_partner_id.street2
+check_city = document.partner_id.commercial_partner_id.city
+check_state_id = document.partner_id.commercial_partner_id.state_id
+check_country_id = document.partner_id.commercial_partner_id.country_id
+check_zip = document.partner_id.commercial_partner_id.zip
+if (check_street and check_street2 and
+        check_city and check_state_id and
+        check_country_id and check_zip):
+    result = True
+        </field>
+    </record>
+    <record id="crm_status_check_item_8" model="crm.status_check_item">
+        <field name="name">Data Website Perusahaan Lengkap</field>
+        <field name="code">CHKITEM-0008</field>
+        <field name="python_code">result = False
+if document.partner_id.commercial_partner_id.website:
+    result = True
+        </field>
+    </record>
+
+    <record id="crm_status_check_item_9" model="crm.status_check_item">
+        <field name="name">Memiliki PIC</field>
+        <field name="code">CHKITEM-0009</field>
+        <field name="python_code">result = False
+if document.partner_id.id != document.partner_id.commercial_partner_id.id:
+    result = True
+        </field>
+    </record>
+
+    <record id="crm_status_check_item_10" model="crm.status_check_item">
+        <field name="name">Data Jabatan PIC Diisi</field>
+        <field name="code">CHKITEM-0010</field>
+        <field name="python_code">result = False
+if document.partner_id.function:
+    result = True
+        </field>
+    </record>
+
+    <record id="crm_status_check_item_11" model="crm.status_check_item">
+        <field name="name">Data Nomor Handphone PIC Diisi</field>
+        <field name="code">CHKITEM-0011</field>
+        <field name="python_code">result = False
+if document.partner_id.mobile:
+    result = True
+        </field>
+    </record>
+    <record id="crm_status_check_item_12" model="crm.status_check_item">
+        <field name="name">Data Expected Closing Diisi</field>
+        <field name="code">CHKITEM-0012</field>
+        <field name="python_code">result = False
+if document.date_deadline:
+    result = True
+        </field>
+    </record>
+</odoo>
