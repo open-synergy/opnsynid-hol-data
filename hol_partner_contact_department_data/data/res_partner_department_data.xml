@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2021 OpenSynergy Indonesia
+     Copyright 2021 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="0">
+    <record id="res_partner_department_hukum" model="res.partner.department">
+        <field name="name">Divisi Hukum/Legal</field>
+    </record>
+    <record id="res_partner_department_kepatuhan" model="res.partner.department">
+        <field name="name">Divisi Kepatuhan/Compliance</field>
+    </record>
+    <record id="res_partner_department_sekretaris" model="res.partner.department">
+        <field name="name">Divisi Sekretaris Perusahaan/Corporate Secretary</field>
+    </record>
+    <record id="res_partner_department_risk_mgmt" model="res.partner.department">
+        <field name="name">Divisi Risk Management</field>
+    </record>
+    <record id="res_partner_department_hse" model="res.partner.department">
+        <field name="name">Divisi HSE</field>
+    </record>
+    <record id="res_partner_department_hr" model="res.partner.department">
+        <field name="name">Divisi HR/Sumber Daya Manusia</field>
+    </record>
+</odoo>
