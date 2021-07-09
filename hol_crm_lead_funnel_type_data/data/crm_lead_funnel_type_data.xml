@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2021 OpenSynergy Indonesia
+     Copyright 2021 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="0">
+    <record id="crm_lead_funnel_type_sales" model="crm.funnel_type">
+        <field name="name">Sales</field>
+        <field name="code">T001</field>
+        <field name="user_id" eval="ref('base.user_root')" />
+    </record>
+    <record id="crm_lead_funnel_type_advertising" model="crm.funnel_type">
+        <field name="name">Advertising</field>
+        <field name="code">T002</field>
+        <field name="user_id" eval="ref('base.user_root')" />
+    </record>
+</odoo>
