@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2021 OpenSynergy Indonesia
+     Copyright 2021 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+<record id="account_account_type_1" model="account.account.type">
+    <field name="name">Cash on Hand</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">liquidity</field>
+</record>
+
+<record id="account_account_type_2" model="account.account.type">
+    <field name="name">Cash in Bank</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">liquidity</field>
+</record>
+
+<record id="account_account_type_3" model="account.account.type">
+    <field name="name">Time Deposit</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">liquidity</field>
+</record>
+
+<record id="account_account_type_4" model="account.account.type">
+    <field name="name">Restricted Fund Total</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">liquidity</field>
+</record>
+
+<record id="account_account_type_5" model="account.account.type">
+    <field name="name">Trade Receivable</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">receivable</field>
+</record>
+
+<record id="account_account_type_6" model="account.account.type">
+    <field name="name">Allowance for Doubtful Account</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">receivable</field>
+</record>
+
+<record id="account_account_type_7" model="account.account.type">
+    <field name="name">Prepaid Expense</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_8" model="account.account.type">
+    <field name="name">Prepaid Tax</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_9" model="account.account.type">
+    <field name="name">Employee Receivable</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_10" model="account.account.type">
+    <field name="name">Other Receivable</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_11" model="account.account.type">
+    <field name="name">Investment on Subsidiary</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_12" model="account.account.type">
+    <field name="name">Due From</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_13" model="account.account.type">
+    <field name="name">Deferred Tax Asset</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_14" model="account.account.type">
+    <field name="name">Refundable Deposit</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_15" model="account.account.type">
+    <field name="name">Fixed Asset, Net</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_16" model="account.account.type">
+    <field name="name">Asset Under Construction</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_17" model="account.account.type">
+    <field name="name">Fixed Asset - Acq Cost</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_18" model="account.account.type">
+    <field name="name">Accumulated Depreciation</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_19" model="account.account.type">
+    <field name="name">Right of use asset</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_20" model="account.account.type">
+    <field name="name">Accumulated Depreciation Right of use asset</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_21" model="account.account.type">
+    <field name="name">Trade Payable</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">payable</field>
+</record>
+
+<record id="account_account_type_22" model="account.account.type">
+    <field name="name">Other Short Term Liabilities</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_23" model="account.account.type">
+    <field name="name">Accrued Expense</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_24" model="account.account.type">
+    <field name="name">Unearned Revenue</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_25" model="account.account.type">
+    <field name="name">Due To</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_26" model="account.account.type">
+    <field name="name">Employee Benefit Obligation</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_27" model="account.account.type">
+    <field name="name">Share Capital</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_28" model="account.account.type">
+    <field name="name">Historical Balancing</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_29" model="account.account.type">
+    <field name="name">Additional Paid In Capital</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_30" model="account.account.type">
+    <field name="name">Advance on Share Capital</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_31" model="account.account.type">
+    <field name="name">Retained Earning</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_32" model="account.account.type">
+    <field name="name">Dividend</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_33" model="account.account.type">
+    <field name="name">Accumulated Other Comprehensive Income</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_34" model="account.account.type">
+    <field name="name">Tax Payable</field>
+    <field name="include_initial_balance" eval="1" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_35" model="account.account.type">
+    <field name="name">Premium Content Revenue</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_36" model="account.account.type">
+    <field name="name">Premium Content Discount</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_37" model="account.account.type">
+    <field name="name">Premium Content Unearned</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_38" model="account.account.type">
+    <field name="name">Enterprise Solution Revenue</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_39" model="account.account.type">
+    <field name="name">Enterprise Solution Discount</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_40" model="account.account.type">
+    <field name="name">Event &amp; Training Revenue</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_41" model="account.account.type">
+    <field name="name">Event &amp; Training Discount</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_42" model="account.account.type">
+    <field name="name">Premium Content Cost of Revenue</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_43" model="account.account.type">
+    <field name="name">Enterprise Solution Cost of Revenue</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_44" model="account.account.type">
+    <field name="name">Event &amp; Training Cost of Revenue</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_45" model="account.account.type">
+    <field name="name">Partnership Cost of Revenue</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_46" model="account.account.type">
+    <field name="name">Other Cost of Revenue</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_47" model="account.account.type">
+    <field name="name">Cost of Revenue - Compensation &amp; Benefit</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_48" model="account.account.type">
+    <field name="name">Marketing Expense</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_49" model="account.account.type">
+    <field name="name">Compensation &amp; Benefit Expense</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_50" model="account.account.type">
+    <field name="name">Employee Welfare Expense</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_51" model="account.account.type">
+    <field name="name">Provision Employee Benefit Obligation Expense</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_52" model="account.account.type">
+    <field name="name">Rent Expense</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_53" model="account.account.type">
+    <field name="name">Maintenance Expense</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_54" model="account.account.type">
+    <field name="name">Utilities Expense</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_55" model="account.account.type">
+    <field name="name">Office Expense</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_56" model="account.account.type">
+    <field name="name">Technology Expense</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_57" model="account.account.type">
+    <field name="name">License &amp; Permit Expense</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_58" model="account.account.type">
+    <field name="name">Professional Services Expense</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_59" model="account.account.type">
+    <field name="name">Training Expense</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_60" model="account.account.type">
+    <field name="name">Travel Expense</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_61" model="account.account.type">
+    <field name="name">Office Communication Expense</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_62" model="account.account.type">
+    <field name="name">Subscription Expense</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_63" model="account.account.type">
+    <field name="name">Tax Expense</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_64" model="account.account.type">
+    <field name="name">Other Operating Expense</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_65" model="account.account.type">
+    <field name="name">Depreciation &amp; Amortization Expense</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_66" model="account.account.type">
+    <field name="name">Other Income</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_67" model="account.account.type">
+    <field name="name">Other Expense</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_68" model="account.account.type">
+    <field name="name">Current Tax</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_69" model="account.account.type">
+    <field name="name">Deffered Tax</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_70" model="account.account.type">
+    <field name="name">Other Comprehensive Income</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_71" model="account.account.type">
+    <field name="name">Online Course Revenue</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_72" model="account.account.type">
+    <field name="name">Online Course Discount</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_73" model="account.account.type">
+    <field name="name">Premium Stories Revenue</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_74" model="account.account.type">
+    <field name="name">Premium Stories Discount</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_75" model="account.account.type">
+    <field name="name">Digital Business Revenue</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_76" model="account.account.type">
+    <field name="name">Digital Business Discount</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_77" model="account.account.type">
+    <field name="name">Partnership Revenue</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_78" model="account.account.type">
+    <field name="name">Partnership Revenue</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_79" model="account.account.type">
+    <field name="name">Other Revenue</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+
+<record id="account_account_type_80" model="account.account.type">
+    <field name="name">Content Production Expense</field>
+    <field name="include_initial_balance" eval="0" />
+    <field name="type">other</field>
+</record>
+</odoo>
