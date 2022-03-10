@@ -15,3 +15,4 @@
 partner-contact https://github.com/OCA/partner-contact.git 11.0
 opnsynid-crm https://github.com/open-synergy/opnsynid-crm.git 11.0
 opnsynid-l10n-indonesia-taxform https://github.com/open-synergy/opnsynid-l10n-indonesia-taxform.git 11.0
+opnsynid-partner-contact https://github.com/open-synergy/opnsynid-partner-contact.git 11.0
