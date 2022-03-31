@@ -45,6 +45,7 @@ class AccountInvoice(models.Model):
             "UANG_MUKA_PPN",
             "UANG_MUKA_PPNBM",
             "REFERENSI",
+            "KODE_DOKUMEN_PENDUKUNG",
         ]
         return header_1
 
@@ -110,6 +111,7 @@ class AccountInvoice(models.Model):
             "JUMLAH_BARANG": 0,
             "TARIF_PPNBM": 0,
             "PPNBM": 0,
+            "KODE_DOKUMEN_PENDUKUNG": "",
         }
         return data
 
@@ -147,16 +149,13 @@ class AccountInvoice(models.Model):
         for document in self:
             if document.state != "draft":
                 data = document._prepare_data()
-                no_faktur = (
-                    document.enofa_fg_pengganti
-                    + document.enofa_jenis_transaksi
-                    + document.enofa_nomor_dokumen
-                ).replace(".", "")
+                no_faktur = document.enofa_nomor_dokumen.replace(".", "")
                 alamat_lengkap = document._get_alamat()
 
                 data["KD_JENIS_TRANSAKSI"] = str(document.enofa_jenis_transaksi)
                 data["FG_PENGGANTI"] = document.enofa_fg_pengganti
                 data["NOMOR_FAKTUR"] = no_faktur
+                data["REFERENSI"] = document.number
                 data["MASA_PAJAK"] = document.enofa_masa_pajak
                 data["TAHUN_PAJAK"] = document.enofa_tahun_pajak
                 data["TANGGAL_FAKTUR"] = document.enofa_tanggal_dokumen
@@ -186,14 +185,15 @@ class AccountInvoice(models.Model):
                             "HARGA_TOTAL": line.enofa_harga_total,
                             "DPP": int(float(line.enofa_dpp)),
                             "DISKON": 0,
-                            "PPN": int(int(float(line.enofa_dpp)) * 0.1),
+                            "PPN": int(float(line.enofa_ppn)),
                             "product_id": line.product_id.id,
                         }
                         details.append(line_dict)
                     else:
                         diskon = line.price_unit * line.quantity
                         dpp = line_dict["DPP"] - abs(diskon)
-                        pajak = dpp * 0.1
+                        pajak = line_dict["PPN"] + int(float(line.enofa_ppn))
+                        # pajak = int(float(line.enofa_dpp))
 
                         line_dict.update(
                             {
