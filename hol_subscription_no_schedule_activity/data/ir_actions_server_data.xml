@@ -1,0 +1,20 @@
+<odoo>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl). -->
+<data>
+<record id="subscrption_action_create_no_schedule_activity" model="ir.actions.server">
+    <field name="name">Action Create No Schedule Activity</field>
+    <field name="model_id" ref="sale_subscription.model_sale_subscription" />
+    <field name="state">code</field>
+    <field name="code">records.action_create_no_schedule_activity()</field>
+</record>
+
+<record id="subscrption_action_cancel_no_schedule_activity" model="ir.actions.server">
+    <field name="name">Action Cancel No Schedule Activity</field>
+    <field name="model_id" ref="sale_subscription.model_sale_subscription" />
+    <field name="state">code</field>
+    <field name="code">records.action_cancel_no_schedule_activity()</field>
+</record>
+</data>
+</odoo>
