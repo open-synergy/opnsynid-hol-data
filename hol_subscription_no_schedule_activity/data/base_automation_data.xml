@@ -1,0 +1,34 @@
+<odoo>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl). -->
+<data>
+<record id="subscription_automation1" model="base.automation">
+    <field
+                name="action_server_id"
+                ref="hol_subscription_no_schedule_activity.subscrption_action_create_no_schedule_activity"
+            />
+    <field name="trigger">on_write</field>
+    <field name="filter_pre_domain">[('state','=','confirm')]</field>
+    <field
+                name="filter_domain"
+            >[('state','=','open'),('payment_schedule_ids','=',False)]</field>
+</record>
+
+<record id="subscription_automation2" model="base.automation">
+    <field
+                name="action_server_id"
+                ref="hol_subscription_no_schedule_activity.subscrption_action_cancel_no_schedule_activity"
+            />
+    <field name="trigger">on_write</field>
+    <field
+                name="filter_pre_domain"
+            >[('state','=','open'),('first_date_invoice','=',False)]</field>
+    <field
+                name="filter_domain"
+            >[('state','=','open'),('first_date_invoice','!=',False)]</field>
+</record>
+
+
+</data>
+</odoo>
