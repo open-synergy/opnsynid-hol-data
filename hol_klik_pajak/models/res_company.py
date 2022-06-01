@@ -61,6 +61,6 @@ class ResCompany(models.Model):
         self.ensure_one()
         request_line = method + " " + api_url + " HTTP/1.1"
         date_string = format_date_time(datetime.utcnow().timestamp())
-        payload_tupple = ("date:" + date_string, request_line)
+        payload_tupple = ("date: " + date_string, request_line)
         payload = "\n".join(payload_tupple)
         return payload
