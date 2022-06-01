@@ -15,7 +15,7 @@ class AccountInvoiceLine(models.Model):
         self.ensure_one()
         return {
             "name": self.name,
-            "price_unit": self.price_unit,
+            "unit_price": self.price_unit,
             "quantity": self.price_unit,
             "discount": self._get_hol_discount(),
             "ppnbm_rate": 0.0,
