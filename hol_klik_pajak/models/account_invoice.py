@@ -128,7 +128,7 @@ class AccountInvoice(models.Model):
             "client_reference_id": self.number,
             "transaction_detail": self.transaction_type_id.code,
             "additional_trx_detail": "00",  # TODO
-            "substitution_flag": self.fp_state,
+            "substitution_flag": self._get_substitution_flag(self.fp_state),
             "substituted_faktur_id": None,
             "document_number": self.nomor_seri_id.name,
             "document_date": self.date_taxform,
@@ -142,27 +142,42 @@ class AccountInvoice(models.Model):
             record._klikpajak_submit_sale_invoice()
 
     @api.multi
-    def _get_klikpajak_sale_invoice_header(self):
+    def _get_substitution_flag(self, fp_state):
         self.ensure_one()
-        result = self.company_id._get_klikpajak_header()
+        if fp_state == "0":
+            return False
+        else:
+            return True
+
+    @api.multi
+    def _get_signature(self):
+        self.ensure_one()
+        secret = self.company_id.klikpajak_client_secret
+
         payload = self.company_id._get_klikpajak_signature_header(
             self.company_id.klikpajak_sale_invoice_url, "POST"
         )
-        stringToSign = payload
-        secretAccessKeyBase64 = base64.b64decode(
-            self.company_id.klikpajak_client_secret
+        hmac_signature = hmac.new(
+            key=secret.encode("utf-8"),
+            msg=payload.encode("utf-8"),
+            digestmod=hashlib.sha256,
         )
-        keyBytes = secretAccessKeyBase64
-        stringToSignBytes = bytes(stringToSign, "utf-8")
-        signatureHash = hmac.new(
-            keyBytes, stringToSignBytes, digestmod=hashlib.sha256
-        ).digest()
-        signature = base64.b64encode(signatureHash)
+        hmac_digest = hmac_signature.digest()
+
+        signature = base64.b64encode(hmac_digest).decode("utf-8")
+        return signature
+
+    @api.multi
+    def _get_klikpajak_sale_invoice_header(self):
+        self.ensure_one()
+        result = self.company_id._get_klikpajak_header()
+
+        signature = self._get_signature()
+
+        authorization = self.company_id._get_klikpajak_authorization_header(signature)
         result.update(
             {
-                "Authorization": self.company_id._get_klikpajak_authorization_header(
-                    signature
-                ),
+                "Authorization": authorization,
             }
         )
         return result
@@ -174,7 +189,6 @@ class AccountInvoice(models.Model):
         headers = self._get_klikpajak_sale_invoice_header()
         params = self.company_id._get_klikpajak_sale_invoice_params()
         json_data = self._prepare_klikpajak_json_data()
-
         base_url = self.company_id.klikpajak_base_url
         sale_invoice_url = self.company_id.klikpajak_sale_invoice_url
         api_url = base_url + sale_invoice_url
