@@ -30,7 +30,7 @@ class ResCompany(models.Model):
     def _get_klikpajak_sale_invoice_params(self):
         self.ensure_one()
         return {
-            "auto_approval": "false",
+            "auto_approval": "true",
             "auto_calculate": "true",
         }
 

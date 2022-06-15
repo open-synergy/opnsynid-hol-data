@@ -15,13 +15,13 @@ class AccountInvoiceLine(models.Model):
         self.ensure_one()
         return {
             "name": self.name,
-            "unit_price": self.price_unit,
-            "quantity": self.price_unit,
+            "unit_price": int(self.price_unit),
+            "quantity": int(self.quantity),
             "discount": self._get_hol_discount(),
-            "ppnbm_rate": 0.0,
+            "ppnbm_rate": 0,
         }
 
     @api.multi
     def _get_hol_discount(self):
         self.ensure_one()
-        return 0.0
+        return int(0.0)
