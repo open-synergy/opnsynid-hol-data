@@ -16,5 +16,15 @@ class ResPartner(models.Model):
         return {
             "name": self.commercial_partner_id.legal_name,
             "npwp": self.commercial_partner_id.vat,
-            "address": "_",
+            "address": self._klikpajak_get_alamat(),
         }
+
+    @api.multi
+    def _klikpajak_get_alamat(self):
+        self.ensure_one()
+        street = self.commercial_partner_id.street or ""
+        street2 = self.commercial_partner_id.street2 or ""
+        city = self.commercial_partner_id.city or ""
+        zip = self.commercial_partner_id.zip or ""
+        alamat = street + ". " + street2 + ". " + city + ". " + zip
+        return alamat
