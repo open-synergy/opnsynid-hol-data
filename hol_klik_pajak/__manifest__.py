@@ -3,7 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 {
     "name": "Klik Pajak Integration",
-    "version": "11.0.0.0.2",
+    "version": "11.0.1.0.3",
     "license": "AGPL-3",
     "website": "https://simetri-sinergi.id",
     "author": "PT. Simetri Sinergi Indonesia, OpenSynergy Indonesia",
