@@ -17,11 +17,13 @@ class AccountInvoiceLine(models.Model):
             "name": self.name,
             "unit_price": int(self.price_unit),
             "quantity": int(self.quantity),
-            "discount": self._get_hol_discount(),
+            "discount": int(0.0),
             "ppnbm_rate": 0,
         }
 
     @api.multi
     def _get_hol_discount(self):
         self.ensure_one()
-        return int(0.0)
+        discount = self.price_unit * self.quantity
+        result = {"discount": abs(int(discount))}
+        return result

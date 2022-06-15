@@ -66,8 +66,15 @@ class AccountInvoice(models.Model):
         self.ensure_one()
         invoice_lines = []
         commercial_part = self.partner_id.commercial_partner_id
-        for line in self.invoice_line_ids.filtered(lambda r: r.price_unit > 0):
-            invoice_lines.append(line._prepare_klikpajak_json_data())
+        index = 0
+        for line in self.invoice_line_ids:
+            if line.price_unit > 0:
+                invoice_lines.append(line._prepare_klikpajak_json_data())
+                index += 1
+            else:
+                previous_index = index - 1
+                invoice_lines[previous_index].update(line._get_hol_discount())
+
         return {
             "client_reference_id": self.number,
             "reference": self.number,
