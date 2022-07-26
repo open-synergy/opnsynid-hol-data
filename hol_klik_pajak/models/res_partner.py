@@ -22,9 +22,9 @@ class ResPartner(models.Model):
     @api.multi
     def _klikpajak_get_alamat(self):
         self.ensure_one()
-        street = self.commercial_partner_id.street or ""
-        street2 = self.commercial_partner_id.street2 or ""
-        city = self.commercial_partner_id.city or ""
-        zip = self.commercial_partner_id.zip or ""
+        street = self.street or ""
+        street2 = self.street2 or ""
+        city = self.city or ""
+        zip = self.zip or ""
         alamat = street + ". " + street2 + ". " + city + ". " + zip
         return alamat

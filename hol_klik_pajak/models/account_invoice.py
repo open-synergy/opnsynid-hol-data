@@ -66,6 +66,9 @@ class AccountInvoice(models.Model):
         self.ensure_one()
         invoice_lines = []
         commercial_part = self.partner_id.commercial_partner_id
+        customer_data = commercial_part._prepare_klikpajak_json_data()
+        if self.taxform_address_id:
+            customer_data["address"] = self.taxform_address_id._klikpajak_get_alamat()
         index = 0
         for line in self.invoice_line_ids:
             if line.price_unit > 0:
@@ -84,7 +87,7 @@ class AccountInvoice(models.Model):
             "substituted_faktur_id": None,
             "document_number": self.nomor_seri_id.name,
             "document_date": self.date_taxform,
-            "customer": commercial_part._prepare_klikpajak_json_data(),
+            "customer": customer_data,
             "items": invoice_lines,
             "total_price": 0,
             "total_discount": 0,
