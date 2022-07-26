@@ -14,7 +14,7 @@ class AccountInvoiceLine(models.Model):
     def _prepare_klikpajak_json_data(self):
         self.ensure_one()
         return {
-            "name": self.name,
+            "name": self.enofa_nama,
             "unit_price": int(self.price_unit),
             "quantity": int(self.quantity),
             "discount": int(0.0),
