@@ -10,6 +10,7 @@
     "depends": [
         "account",
         "configuration_helper",
+        "webhook",
     ],
     "external_dependencies": {
         "python": [
@@ -17,6 +18,7 @@
         ],
     },
     "data": [
+        "data/webhook_data.xml",
         "views/res_config_settings_views.xml",
         "views/res_partner_views.xml",
         "views/account_tax_views.xml",
