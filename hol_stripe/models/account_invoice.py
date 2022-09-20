@@ -78,6 +78,7 @@ class AccountInvoice(models.Model):
             # due_date=self.date_due,
             days_until_due=7,
             payment_settings={
+                # TODO: Change into customer balance
                 "payment_method_types": ["id_bank_transfer"],
             },
         )

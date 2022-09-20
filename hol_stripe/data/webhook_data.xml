@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<odoo noupdate="1">
+<record id="webhook_stripe" model="webhook">
+    <field name="name">webhook_stripe</field>
+    <field name="python_code_get_event">'all_event'</field>
+    <field
+            name="python_code_get_ip"
+        >request.httprequest.headers.get("X-Webhook-Test-Address")</field>
+</record>
+
+<record id="webhook_address_localhost" model="webhook.address">
+    <field name="name">127.0.0.1</field>
+    <field name="webhook_id" ref="webhook_stripe" />
+</record>
+</odoo>
