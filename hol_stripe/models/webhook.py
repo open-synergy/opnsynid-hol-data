@@ -2,13 +2,17 @@
 # Copyright 2022 PT. Simetri Sinergi Indonesia
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
+import logging
+
+import requests
 import stripe
 
 from odoo import api, models
 
-endpoint_secret = (
-    "whsec_d3632cf8b73770372fe13c2c8877f493ede309ae8e5ea3ac50bf5a4349c992e8"
-)
+_logger = logging.getLogger(__name__)
+
+
+endpoint_secret = "we_1LkO6qHpeSTSgATaViMLkbSF"
 
 
 class Webhook(models.Model):
@@ -18,14 +22,26 @@ class Webhook(models.Model):
     @api.multi
     def run_webhook_stripe_all_event(self):
         self.ensure_one()
+        payload = self.env.request.jsonrequest
+        event = None
+        try:
+            event = stripe.Event.construct_from(payload, endpoint_secret)
+        except requests.exceptions.HTTPError as e:
+            if e.response.status_code in (
+                401,
+                410,
+            ):
+                pass
+            else:
+                raise e
 
-        payload = self.env.request.jsonrequest["data"]
-        sig_header = self.env.request.httprequest.environ["HTTP_STRIPE_SIGNATURE"]
-        event = stripe.Webhook.construct_event(payload, sig_header, endpoint_secret)
-
-        # Handle event
-        if event and event["type"] == "payment_intent.succeeded":
-            pass
+        if event.type == "payment_intent.succeeded":
+            payment_intent = event.data.object
+            _logger.warning("PaymentIntent was successful!")
+            _logger.warning("Data %s", payment_intent["invoice"])
+        elif event.type == "payment_method.attached":
+            payment_method = event.data.object
+            _logger.warning("PaymentMethod was attached to a Customer!")
+            _logger.warning("Data %s", payment_method)
         else:
-            # Unexpected event type
-            pass
+            _logger.warning("Unhandled event type %s", event.type)

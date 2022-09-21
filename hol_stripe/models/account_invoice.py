@@ -4,7 +4,8 @@
 
 import stripe
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
 
 
 class AccountInvoice(models.Model):
@@ -25,6 +26,9 @@ class AccountInvoice(models.Model):
     @api.multi
     def action_create_stripe_id(self):
         for record in self:
+            if record.state != "open":
+                msgError = _("Stripe can only be created when state is 'OPEN'!")
+                raise UserError(msgError)
             record._create_stripe_id()
 
     @api.multi
@@ -83,7 +87,6 @@ class AccountInvoice(models.Model):
             },
         )
         result = stripe.Invoice.finalize_invoice(result["id"])
-        # raise UserError(str(result))
         self.write(
             {
                 "stripe_id": result["id"],
