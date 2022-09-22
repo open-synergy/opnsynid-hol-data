@@ -12,3 +12,10 @@ class ResCompany(models.Model):
     stripe_api_key = fields.Char(
         string="Stripe API Key",
     )
+    stripe_endpoint_secret = fields.Char(
+        string="Stripe Endpoint Secret",
+    )
+    stripe_journal_id = fields.Many2one(
+        string="Stripe Journal",
+        comodel_name="account.journal",
+    )
