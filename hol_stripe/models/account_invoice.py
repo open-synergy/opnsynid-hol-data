@@ -75,14 +75,13 @@ class AccountInvoice(models.Model):
                 quantity=line["quantity"],
                 tax_rates=line["tax_rates"],
             )
+        dt_invoice = fields.Date.from_string(self.date_invoice)
+        dt_due = fields.Date.from_string(self.date_due)
         result = stripe.Invoice.create(
             customer=self.partner_id.commercial_partner_id.stripe_id,
             collection_method="send_invoice",
-            # TODO
-            # due_date=self.date_due,
-            days_until_due=7,
+            days_until_due=(dt_due - dt_invoice).days,
             payment_settings={
-                # TODO: Change into customer balance
                 "payment_method_types": ["id_bank_transfer"],
             },
         )

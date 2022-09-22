@@ -17,3 +17,12 @@ class KlikPajaksettings(models.TransientModel):
         string="Stripe API Key",
         related="company_id.stripe_api_key",
     )
+    stripe_endpoint_secret = fields.Char(
+        string="Stripe Endpoint Secret",
+        related="company_id.stripe_endpoint_secret",
+    )
+    stripe_journal_id = fields.Many2one(
+        string="Stripe Journal",
+        comodel_name="account.journal",
+        related="company_id.stripe_journal_id",
+    )
