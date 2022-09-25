@@ -3,6 +3,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 # pylint: disable=W0622
 
+import stripe
+
 from odoo import api, models
 
 
@@ -31,3 +33,15 @@ class AccountInvoiceLine(models.Model):
             stripe_tax_rate_ids = invoice_line_tax_ids.mapped("stripe_id")
             result = stripe_tax_rate_ids
         return result
+
+    @api.multi
+    def _get_stripe_line_discount(self):
+        self.ensure_one()
+        stripe.api_key = self.env.user.company_id.stripe_api_key
+        amount = int(abs(self.price_subtotal) / self.quantity) * 100
+        coupon = stripe.Coupon.create(
+            amount_off=amount,
+            duration="once",
+            currency="IDR",
+        )
+        return {"discounts": [{"coupon": coupon["id"]}]}
