@@ -67,6 +67,9 @@ class AccountInvoice(models.Model):
                 )
 
         for line in invoice_lines:
+            discounts = []
+            if line.get("discounts", False):
+                discounts = line["discounts"]
             stripe.InvoiceItem.create(
                 unit_amount=line["unit_amount"],
                 currency=line["currency"],
@@ -74,6 +77,7 @@ class AccountInvoice(models.Model):
                 description=line["description"],
                 quantity=line["quantity"],
                 tax_rates=line["tax_rates"],
+                discounts=discounts,
             )
         dt_invoice = fields.Date.from_string(self.date_invoice)
         dt_due = fields.Date.from_string(self.date_due)
