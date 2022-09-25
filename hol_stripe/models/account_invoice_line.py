@@ -40,6 +40,7 @@ class AccountInvoiceLine(models.Model):
         stripe.api_key = self.env.user.company_id.stripe_api_key
         amount = int(abs(self.price_subtotal) / self.quantity) * 100
         coupon = stripe.Coupon.create(
+            name="Disc.",
             amount_off=amount,
             duration="once",
             currency="IDR",
