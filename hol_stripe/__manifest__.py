@@ -3,7 +3,7 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 {
     "name": "Stripe Integration",
-    "version": "11.0.1.2.1",
+    "version": "11.0.1.2.2",
     "license": "LGPL-3",
     "website": "https://simetri-sinergi.id",
     "author": "PT. Simetri Sinergi Indonesia, OpenSynergy Indonesia",
