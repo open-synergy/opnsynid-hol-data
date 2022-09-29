@@ -27,7 +27,9 @@
     <field name="arch" type="xml">
         <data>
           <xpath expr="//field[@name='source_document_id']" position="after">
-              <field name="subscription_type" />
+                <field name="subscription_type_method" />
+                <field name="manual_subscription_type" />
+                <field name="subscription_type" />
           </xpath>
         </data>
     </field>

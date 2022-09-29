@@ -14,11 +14,18 @@ class AccountInvoice(models.Model):
     @api.depends(
         "subscription_id",
         "subscription_id.type",
+        "subscription_type_method",
+        "manual_subscription_type",
     )
     def _compute_subscription_type(self):
         for record in self:
             result = "invalid"
-            if record.subscription_id:
+            if (
+                record.subscription_type_method == "manual"
+                and record.manual_subscription_type
+            ):
+                result = record.manual_subscription_type
+            elif record.subscription_type_method == "auto" and record.subscription_id:
                 result = record.subscription_id.type
             record.subscription_type = result
 
@@ -29,7 +36,6 @@ class AccountInvoice(models.Model):
     def _compute_subscription(self):
         for record in self:
             result = False
-
             if (
                 record.source_document_model == "sale.subscription"
                 and record.source_document_res_id != 0
@@ -41,11 +47,29 @@ class AccountInvoice(models.Model):
                     result = subscriptions[0]
             record.subscription_id = result
 
+    subscription_type_method = fields.Selection(
+        string="Subscription Type Method",
+        selection=[
+            ("auto", "Automatic"),
+            ("manual", "Manual"),
+        ],
+        required=True,
+        default="auto",
+    )
     subscription_id = fields.Many2one(
         string="# Subscription",
         comodel_name="sale.subscription",
         compute="_compute_subscription",
         store=True,
+    )
+    manual_subscription_type = fields.Selection(
+        string="Manual Subscription Type",
+        selection=[
+            ("new", "New Subscription"),
+            ("renewal", "Renewal"),
+            ("upgrade", "Upgrade"),
+            ("downgrade", "Downgrade"),
+        ],
     )
     subscription_type = fields.Selection(
         string="Subscription Type",
