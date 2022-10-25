@@ -2,6 +2,7 @@
 # Copyright 2022 PT. Simetri Sinergi Indonesia
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
+import requests
 import stripe
 
 from odoo import _, api, fields, models
@@ -51,6 +52,46 @@ class AccountInvoice(models.Model):
         )
 
     @api.multi
+    def _shorten_url(self, original_url):
+        self.ensure_one()
+        company = self.env.user.company_id
+        if not company.stripe_short_io_url:
+            msg_err = _("Short IO URL Not Found")
+            raise UserError(msg_err)
+        if not company.stripe_short_io_api:
+            msg_err = _("Short IO API Key Not Found")
+            raise UserError(msg_err)
+        if not company.stripe_short_io_domain:
+            msg_err = _("Short IO Domain Not Found")
+            raise UserError(msg_err)
+
+        url = company.stripe_short_io_url
+
+        payload = {
+            "allowDuplicates": False,
+            "domain": company.stripe_short_io_domain,
+            "originalURL": original_url,
+        }
+
+        headers = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "Authorization": company.stripe_short_io_api,
+        }
+
+        try:
+            response = requests.post(url, json=payload, headers=headers)
+        except requests.exceptions.Timeout:
+            msg_err = _("Timeout: the server did not reply within 30s")
+            raise UserError(msg_err)
+        result = response.json()
+        if "error" in result:
+            msg_err = _("%s") % (result["error"])
+            raise UserError(msg_err)
+        else:
+            return result["shortURL"]
+
+    @api.multi
     def _create_stripe_id(self):
         self.ensure_one()
         invoice_lines = []
@@ -93,6 +134,8 @@ class AccountInvoice(models.Model):
         self.write(
             {
                 "stripe_id": result["id"],
-                "stripe_hosted_invoice_url": result["hosted_invoice_url"],
+                "stripe_hosted_invoice_url": self._shorten_url(
+                    result["hosted_invoice_url"]
+                ),
             }
         )

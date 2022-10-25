@@ -42,6 +42,30 @@
                                     />
                                 <field name="stripe_journal_id" />
                             </div>
+                            <div class="row mt16">
+                                <label
+                                        string="Short IO URL"
+                                        for="stripe_short_io_url"
+                                        class="col-md-3 o_light_label"
+                                    />
+                                <field name="stripe_short_io_url" />
+                            </div>
+                            <div class="row mt16">
+                                <label
+                                        string="Short IO API Key"
+                                        for="stripe_short_io_api"
+                                        class="col-md-3 o_light_label"
+                                    />
+                                <field name="stripe_short_io_api" />
+                            </div>
+                            <div class="row mt16">
+                                <label
+                                        string="Short IO Domain"
+                                        for="stripe_short_io_domain"
+                                        class="col-md-3 o_light_label"
+                                    />
+                                <field name="stripe_short_io_domain" />
+                            </div>
                         </div>
                       </div>
                   </div>

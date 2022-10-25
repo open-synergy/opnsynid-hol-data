@@ -26,3 +26,15 @@ class KlikPajaksettings(models.TransientModel):
         comodel_name="account.journal",
         related="company_id.stripe_journal_id",
     )
+    stripe_short_io_url = fields.Char(
+        string="Short IO URL",
+        related="company_id.stripe_short_io_url",
+    )
+    stripe_short_io_api = fields.Char(
+        string="Short IO API Key",
+        related="company_id.stripe_short_io_api",
+    )
+    stripe_short_io_domain = fields.Char(
+        string="Short IO Domain",
+        related="company_id.stripe_short_io_domain",
+    )
