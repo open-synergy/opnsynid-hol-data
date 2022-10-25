@@ -19,3 +19,12 @@ class ResCompany(models.Model):
         string="Stripe Journal",
         comodel_name="account.journal",
     )
+    stripe_short_io_url = fields.Char(
+        string="Short IO URL",
+    )
+    stripe_short_io_api = fields.Char(
+        string="Short IO API Key",
+    )
+    stripe_short_io_domain = fields.Char(
+        string="Short IO Domain",
+    )
