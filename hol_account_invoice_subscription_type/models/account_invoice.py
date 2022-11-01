@@ -8,8 +8,8 @@ from odoo import api, fields, models
 
 
 class AccountInvoice(models.Model):
-    _inherit = "account.invoice"
     _name = "account.invoice"
+    _inherit = "account.invoice"
 
     @api.depends(
         "subscription_id",
