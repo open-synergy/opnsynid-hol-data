@@ -28,3 +28,7 @@ class ResCompany(models.Model):
     stripe_short_io_domain = fields.Char(
         string="Short IO Domain",
     )
+    stripe_art_23_id = fields.Many2one(
+        string="Stripe Art. 23 Tax",
+        comodel_name="account.tax",
+    )
