@@ -21,7 +21,16 @@ class AccountInvoiceLine(models.Model):
             "customer": self.invoice_id.commercial_partner_id.stripe_id,
             "description": self.name,
             "quantity": int(self.quantity),
-            "tax_rates": self._get_stripe_line_tax(),
+        }
+
+    def _prepare_stripe_line_art_23_data(self):
+        self.ensure_one()
+        return {
+            "unit_amount": int(self.price_subtotal / self.quantity) * 100,
+            "currency": "idr",
+            "customer": self.invoice_id.commercial_partner_id.stripe_id,
+            "description": self.name,
+            "quantity": int(self.quantity),
         }
 
     @api.multi
@@ -35,10 +44,21 @@ class AccountInvoiceLine(models.Model):
         return result
 
     @api.multi
+    def _get_stripe_line_art_23_tax(self):
+        self.ensure_one()
+        result = []
+        invoice_line_tax_ids = self.invoice_line_tax_ids
+        if invoice_line_tax_ids:
+            stripe_tax_rate_ids = invoice_line_tax_ids.mapped("stripe_id")
+            result = stripe_tax_rate_ids
+
+        return result
+
+    @api.multi
     def _get_stripe_line_discount(self):
         self.ensure_one()
         stripe.api_key = self.env.user.company_id.stripe_api_key
-        amount = int(abs(self.price_subtotal) / self.quantity) * 100
+        amount = int(abs(self.price_subtotal)) * 100
         coupon = stripe.Coupon.create(
             name="Disc.",
             amount_off=amount,

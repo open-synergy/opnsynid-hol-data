@@ -14,12 +14,22 @@ class AccountInvoice(models.Model):
     _inherit = "account.invoice"
 
     stripe_id = fields.Char(
-        string="Stripe ID",
+        string="Stripe ID (Without Art. 23)",
         readonly=True,
         copy=False,
     )
     stripe_hosted_invoice_url = fields.Char(
-        string="Stripe Hosted Invoice URL",
+        string="Stripe Hosted Invoice URL (Without Art. 23)",
+        readonly=True,
+        copy=False,
+    )
+    stripe_art_23_id = fields.Char(
+        string="Stripe ID (With Art. 23)",
+        readonly=True,
+        copy=False,
+    )
+    stripe_art_23_hosted_invoice_url = fields.Char(
+        string="Stripe Hosted Invoice URL (With Art. 23)",
         readonly=True,
         copy=False,
     )
@@ -36,10 +46,20 @@ class AccountInvoice(models.Model):
     def action_cancel_stripe_id(self):
         for record in self:
             record._cancel_stripe_id()
+            record._cancel_stripe_id_with_art_23()
+
+    @api.multi
+    def _check_stripe_id(self):
+        self.ensure_one()
+        if not self.partner_id.commercial_partner_id.stripe_id:
+            str_warning = _("No customer stripe ID. Please create stripe ID")
+            raise UserError(str_warning)
 
     @api.multi
     def _cancel_stripe_id(self):
         self.ensure_one()
+        if not self.stripe_id:
+            return True
         stripe.api_key = self.env.user.company_id.stripe_api_key
         stripe.Invoice.void_invoice(
             self.stripe_id,
@@ -50,6 +70,34 @@ class AccountInvoice(models.Model):
                 "stripe_hosted_invoice_url": False,
             }
         )
+
+    @api.multi
+    def _cancel_stripe_id_with_art_23(self):
+        self.ensure_one()
+        if not self.stripe_art_23_id:
+            return True
+        stripe.api_key = self.env.user.company_id.stripe_api_key
+        stripe.Invoice.void_invoice(
+            self.stripe_art_23_id,
+        )
+        self.write(
+            {
+                "stripe_art_23_id": False,
+                "stripe_art_23_hosted_invoice_url": False,
+            }
+        )
+
+    @api.multi
+    def _stripe_check_short_io_parameter(self):
+        self.ensure_one()
+        company = self.env.user.company_id
+        if not company.stripe_short_io_url:
+            return False
+        if not company.stripe_short_io_api:
+            return False
+        if not company.stripe_short_io_domain:
+            return False
+        return True
 
     @api.multi
     def _shorten_url(self, original_url):
@@ -94,6 +142,13 @@ class AccountInvoice(models.Model):
     @api.multi
     def _create_stripe_id(self):
         self.ensure_one()
+        self._check_stripe_id()
+        self._create_stripe_id_without_art_23()
+        self._create_stripe_id_with_art_23()
+
+    @api.multi
+    def _create_stripe_id_with_art_23(self):
+        self.ensure_one()
         invoice_lines = []
         stripe.api_key = self.env.user.company_id.stripe_api_key
         index = 0
@@ -117,9 +172,26 @@ class AccountInvoice(models.Model):
                 customer=line["customer"],
                 description=line["description"],
                 quantity=line["quantity"],
-                tax_rates=line["tax_rates"],
                 discounts=discounts,
             )
+
+        # PPN
+        for tax in self.tax_line_ids:
+            stripe.InvoiceItem.create(
+                unit_amount=int(tax.amount_total) * 100,
+                currency="idr",
+                customer=self.commercial_partner_id.stripe_id,
+                description=tax.name,
+                quantity=1,
+            )
+            stripe.InvoiceItem.create(
+                unit_amount=int(-1.0 * tax.base * 0.02 * 100.0),
+                currency="idr",
+                customer=self.commercial_partner_id.stripe_id,
+                description="PPh 23",
+                quantity=1,
+            )
+
         dt_invoice = fields.Date.from_string(self.date_invoice)
         dt_due = fields.Date.from_string(self.date_due)
         result = stripe.Invoice.create(
@@ -131,11 +203,73 @@ class AccountInvoice(models.Model):
             },
         )
         result = stripe.Invoice.finalize_invoice(result["id"])
+        invoice_url = result["hosted_invoice_url"]
+        if self._stripe_check_short_io_parameter():
+            invoice_url = self._shorten_url(invoice_url)
+
+        self.write(
+            {
+                "stripe_art_23_id": result["id"],
+                "stripe_art_23_hosted_invoice_url": invoice_url,
+            }
+        )
+
+    @api.multi
+    def _create_stripe_id_without_art_23(self):
+        self.ensure_one()
+        invoice_lines = []
+        stripe.api_key = self.env.user.company_id.stripe_api_key
+        index = 0
+        for invoice_line in self.invoice_line_ids:
+            if invoice_line.price_unit > 0:
+                invoice_lines.append(invoice_line._prepare_stripe_line_data())
+                index += 1
+            else:
+                previous_index = index - 1
+                invoice_lines[previous_index].update(
+                    invoice_line._get_stripe_line_discount()
+                )
+
+        for line in invoice_lines:
+            discounts = []
+            if line.get("discounts", False):
+                discounts = line["discounts"]
+            stripe.InvoiceItem.create(
+                unit_amount=line["unit_amount"],
+                currency=line["currency"],
+                customer=line["customer"],
+                description=line["description"],
+                quantity=line["quantity"],
+                discounts=discounts,
+            )
+
+        # PPN
+        for tax in self.tax_line_ids:
+            stripe.InvoiceItem.create(
+                unit_amount=int(tax.amount_total) * 100,
+                currency="idr",
+                customer=self.commercial_partner_id.stripe_id,
+                description=tax.name,
+                quantity=1,
+            )
+
+        dt_invoice = fields.Date.from_string(self.date_invoice)
+        dt_due = fields.Date.from_string(self.date_due)
+        result = stripe.Invoice.create(
+            customer=self.partner_id.commercial_partner_id.stripe_id,
+            collection_method="send_invoice",
+            days_until_due=(dt_due - dt_invoice).days,
+            payment_settings={
+                "payment_method_types": ["id_bank_transfer"],
+            },
+        )
+        result = stripe.Invoice.finalize_invoice(result["id"])
+        invoice_url = result["hosted_invoice_url"]
+        if self._stripe_check_short_io_parameter():
+            invoice_url = self._shorten_url(invoice_url)
         self.write(
             {
                 "stripe_id": result["id"],
-                "stripe_hosted_invoice_url": self._shorten_url(
-                    result["hosted_invoice_url"]
-                ),
+                "stripe_hosted_invoice_url": invoice_url,
             }
         )

@@ -38,3 +38,8 @@ class KlikPajaksettings(models.TransientModel):
         string="Short IO Domain",
         related="company_id.stripe_short_io_domain",
     )
+    stripe_art_23_id = fields.Many2one(
+        string="Stripe Art. 23 Tax",
+        comodel_name="account.tax",
+        related="company_id.stripe_art_23_id",
+    )

@@ -13,6 +13,11 @@
                         <group name="stripe" string="Stripe">
                             <field name="stripe_id" />
                             <field name="stripe_hosted_invoice_url" widget="url" />
+                            <field name="stripe_art_23_id" />
+                            <field
+                                name="stripe_art_23_hosted_invoice_url"
+                                widget="url"
+                            />
                             <button
                                 name="action_create_stripe_id"
                                 string="Create Stripe ID"
