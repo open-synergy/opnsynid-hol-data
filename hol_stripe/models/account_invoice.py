@@ -72,6 +72,18 @@ class AccountInvoice(models.Model):
         )
 
     @api.multi
+    def _update_stripe_invoice_prefix(self):
+        self.ensure_one()
+        stripe.api_key = self.env.user.company_id.stripe_api_key
+        invoice_number = self.number.replace("/", "")
+        prefix_lenght = len(self.number) > 12 and 12 or len(self.number)
+        invoice_number = invoice_number[0:prefix_lenght]
+        stripe.Customer.modify(
+            self.partner_id.commercial_partner_id.stripe_id,
+            invoice_prefix=invoice_number,
+        )
+
+    @api.multi
     def _cancel_stripe_id_with_art_23(self):
         self.ensure_one()
         if not self.stripe_art_23_id:
@@ -142,6 +154,7 @@ class AccountInvoice(models.Model):
     @api.multi
     def _create_stripe_id(self):
         self.ensure_one()
+        self._update_stripe_invoice_prefix()
         self._check_stripe_id()
         self._create_stripe_id_without_art_23()
         self._create_stripe_id_with_art_23()
