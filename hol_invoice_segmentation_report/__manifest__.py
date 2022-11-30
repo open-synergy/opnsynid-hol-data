@@ -11,6 +11,7 @@
         "hol_account_invoice_subscription_type",
     ],
     "data": [
+        "security/ir.model.access.csv",
         "reports/segmentation_report.xml",
         "views/account_journal_views.xml",
         "views/account_account_views.xml",
