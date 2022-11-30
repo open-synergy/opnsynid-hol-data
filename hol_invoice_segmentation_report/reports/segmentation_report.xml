@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="invoice_segmentation_view_filter" model="ir.ui.view">
+        <field name="name">invoice.segmentation.filter</field>
+        <field name="model">report.invoice_segmentation</field>
+        <field name="arch" type="xml">
+            <search string="Analysis">
+                <field name="invoice_date" />
+                <field name="invoice_number" />
+                <field name="partner_id" />
+                <field name="reference" />
+                <field name="product_id" />
+                <field name="account_id" />
+                <field name="gross_amount" />
+                <field name="subscription_type" />
+                <group expand="1" string="Group By">
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="invoice_segmentation_view_pivot" model="ir.ui.view">
+        <field name="name">invoice.segmentation.pivot</field>
+        <field name="model">report.invoice_segmentation</field>
+        <field name="arch" type="xml">
+            <pivot string="Analysis" stacked="True">
+            </pivot>
+        </field>
+    </record>
+    <record id="invoice_segmentation_view_graph" model="ir.ui.view">
+        <field name="name">invoice.segmentation.graph</field>
+        <field name="model">report.invoice_segmentation</field>
+        <field name="arch" type="xml">
+            <graph string="Analysis" type="bar" stacked="True">
+            </graph>
+        </field>
+    </record>
+    <record id="invoice_segmentation_view_tree" model="ir.ui.view">
+        <field name="name">invoice.segmentation.tree</field>
+        <field name="model">report.invoice_segmentation</field>
+        <field name="arch" type="xml">
+            <tree string="Analysis">
+                <field name="invoice_date" />
+                <field name="invoice_number" />
+                <field name="partner_id" />
+                <field name="reference" />
+                <field name="product_id" />
+                <field name="account_id" />
+                <field name="gross_amount" />
+                <field name="subscription_type" />
+            </tree>
+        </field>
+    </record>
+    <record id="invoice_segmentation_action" model="ir.actions.act_window">
+        <field name="name">Invoice Segmentation</field>
+        <field name="res_model">report.invoice_segmentation</field>
+        <field name="view_mode">pivot,graph,tree</field>
+        <field name="search_view_id" ref="invoice_segmentation_view_filter" />
+        <field name="context">{}</field>
+    </record>
+    <menuitem
+        id="invoice_segmentation_menu"
+        name="Invoice Segmentations"
+        action="invoice_segmentation_action"
+        parent="account.account_reports_management_menu"
+        sequence="100"
+    />
+</odoo>
