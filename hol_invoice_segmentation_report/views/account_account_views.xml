@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="account_account_view_form" model="ir.ui.view">
+        <field name="name">account.account.segmentation.report.form</field>
+        <field name="model">account.account</field>
+        <field name="priority" eval="100" />
+        <field name="inherit_id" ref="account.view_account_form" />
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='deprecated']" position="after">
+                    <field name="invoice_segmentation_ok" />
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+</odoo>
