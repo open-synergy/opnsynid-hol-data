@@ -158,6 +158,7 @@ class AccountInvoice(models.Model):
         self._check_stripe_id()
         self._create_stripe_id_without_art_23()
         self._create_stripe_id_with_art_23()
+        self.create_hosted_invoice_url_message()
 
     @api.multi
     def _create_stripe_id_with_art_23(self):
@@ -286,3 +287,9 @@ class AccountInvoice(models.Model):
                 "stripe_hosted_invoice_url": invoice_url,
             }
         )
+
+    @api.multi
+    def create_hosted_invoice_url_message(self):
+        self.ensure_one()
+        message = _("Stripe URL %s") % (self.stripe_hosted_invoice_url)
+        self.message_post(body=message)
