@@ -76,8 +76,10 @@ class AccountInvoice(models.Model):
         self.ensure_one()
         stripe.api_key = self.env.user.company_id.stripe_api_key
         invoice_number = self.number.replace("/", "")
-        prefix_lenght = len(self.number) > 12 and 12 or len(self.number)
-        invoice_number = invoice_number[0:prefix_lenght]
+        invoice_number = invoice_number.replace("JSP", "")
+        invoice_number = invoice_number.replace("INV", "")
+        prefix_lenght = len(invoice_number) > 12 and 12 or len(invoice_number)
+        invoice_number = invoice_number[1 : prefix_lenght + 1]
         stripe.Customer.modify(
             self.partner_id.commercial_partner_id.stripe_id,
             invoice_prefix=invoice_number,
