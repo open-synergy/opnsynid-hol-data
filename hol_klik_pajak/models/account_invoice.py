@@ -141,10 +141,15 @@ class AccountInvoice(models.Model):
         self.ensure_one()
 
         base_url = self.company_id.klikpajak_base_url
-        api_url = base_url + "/v1/efaktur/out/" + str(self.klikpajak_id) + "/approve/"
+        api_url = (
+            base_url
+            + "/v2/klikpajak/v1/efaktur/out/"
+            + str(self.klikpajak_id)
+            + "/approve"
+        )
         # raise UserError(api_url)
         headers = self._get_klikpajak_sale_invoice_header(
-            "/v1/efaktur/out/" + str(self.klikpajak_id) + "/approve/", "PUT"
+            "/v2/klikpajak/v1/efaktur/out/" + str(self.klikpajak_id) + "/approve", "PUT"
         )
 
         response = requests.put(api_url, headers=headers)
