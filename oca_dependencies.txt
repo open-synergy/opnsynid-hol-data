@@ -19,3 +19,5 @@ opnsynid-partner-contact https://github.com/open-synergy/opnsynid-partner-contac
 opnsynid-subscription https://github.com/open-synergy/opnsynid-subscription.git 11.0
 opnsynid-account-invoicing https://github.com/open-synergy/opnsynid-account-invoicing.git 11.0
 ssi-mixin https://github.com/open-synergy/ssi-mixin.git 11.0
+oca-reporting-engine https://github.com/OCA/reporting-engine.git 11.0
+oca-account-financial-reporting https://github.com/OCA/account-financial-reporting.git 11.0
