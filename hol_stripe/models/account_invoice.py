@@ -35,6 +35,34 @@ class AccountInvoice(models.Model):
     )
 
     @api.multi
+    def _compute_last_payment_info(self):
+        _super = super(AccountInvoice, self)
+        res = _super._compute_last_payment_info()
+        for document in self:
+            journal_id = document.last_payment_move_id.journal_id.id
+            stripe_jounal_id = self.env.user.company_id.stripe_journal_id.id
+            if journal_id != stripe_jounal_id:
+                if document.stripe_id:
+                    stripe.api_key = self.env.user.company_id.stripe_api_key
+                    result = stripe.Invoice.retrieve(
+                        document.stripe_id,
+                    )
+                    if result["status"] == "open":
+                        stripe.Invoice.void_invoice(
+                            self.stripe_id,
+                        )
+                if document.stripe_art_23_id:
+                    stripe.api_key = self.env.user.company_id.stripe_api_key
+                    result = stripe.Invoice.retrieve(
+                        document.stripe_art_23_id,
+                    )
+                    if result["status"] == "open":
+                        stripe.Invoice.void_invoice(
+                            self.stripe_art_23_id,
+                        )
+        return res
+
+    @api.multi
     def action_create_stripe_id(self):
         for record in self:
             if record.state != "open":
